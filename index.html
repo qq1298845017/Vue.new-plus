@@ -2,8 +2,52 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>前端页面</title>
+		<title>前端内容</title>
+		<link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+		</style>
 	</head>
 	<body>
+		
+		<div class="jumbotron">
+			<a class="btn btn-link float-right" href="admin/index.html" role="button">跳转后台</a>
+  				<h1 class="display-4 text-center">人民网</h1>  				
+		</div>	
+		<div id="app">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<h2>国内</h2>
+					<ul class="list-group list-group-flush">
+		  			<li class="list-group-item" v-for="(tr,index) in trs" v-if="tr.biaoqian=='国内' && tr.zhuangtai==true">
+		  				<a :href="index">	{{tr.title}}</a>
+		  			</li> 
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h2>国际</h2>
+					<ul class="list-group list-group-flush">
+		  			<li class="list-group-item" v-for="tr in trs" v-if="tr.biaoqian=='国际' && tr.zhuangtai==true">
+		  				<a :href="index">	{{tr.title}}</a>
+		  			</li> 
+					</ul>
+				</div>
+				<div class="col-md-4">
+					<h2>军事</h2>
+					<ul class="list-group list-group-flush">
+		  			<li class="list-group-item" v-for="tr in trs" v-if="tr.biaoqian=='军事' && tr.zhuangtai==true">
+		  			<a :href="index">	{{tr.title}}</a>
+		  			</li> 
+					</ul>
+				</div>
+				
+			</div>
+		</div>
+		</div>
+		<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>		
+		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" ></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="js/admin.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

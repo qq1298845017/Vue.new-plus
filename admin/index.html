@@ -1,42 +1,155 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
-		<title>后天页面</title>
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<title>后台内容</title>
+		<link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
 	</head>
+
 	<body>
-		<div id="app">
-			<div class="container">
-				<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">文章分类</th>
-      <th scope="col">文章标题</th>
-      <th scope="col">作者</th>
-      <th scope="col">发布时间</th>
-      <th scope="col">修改时间</th>
-      <th scope="col">发布状态</th>
-      <th scope="col">操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>文章分类</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
-    </tr>
-  </tbody>
-</table>
-			</div>
+		<div class="jumbotron">
+			<a class="btn btn-link float-right" href="../index.html" role="button">跳转前台</a>
+			<h1 class="display-4 text-center">后台-人民网</h1>
 		</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js"></script>
-		<script src="../js/script.js" type="text/javascript" charset="utf-8"></script>
+
+		<div id="app">
+
+			<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tianjiaxinwen">添加新闻</button>
+
+			<!-- Modal -->
+			<div class="modal fade" id="tianjiaxinwen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">添加新闻</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+						</div>
+						<div class="modal-body">
+
+							<form>
+								<div class="form-group">
+									<label>新闻标题</label>
+									<input type="text" class="form-control fou" v-model="title" autofocus="autofocus">
+								</div>
+								<div class="form-group">
+									<label>作者</label>
+									<input type="text" class="form-control" v-model="author">
+								</div>
+								<div class="form-group">
+									<label>文章内容</label>
+									<textarea class="form-control" rows="3" v-model="content"></textarea>
+								</div>
+								<div class="form-group">
+									<label>分类</label>
+									<select class="form-control" v-model="biaoqian">
+										<option>军事</option>
+										<option>国际</option>
+										<option>国内</option>
+									</select>
+								</div>
+
+								<div class="form-check">
+									<input type="checkbox" class="form-check-input" v-model="zhuangtai">
+									<label class="form-check-label" for="exampleCheck1">已发布</label>
+								</div>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+							<button type="button" class="btn btn-primary" @click="add">添加新闻</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bs-example" data-example-id="bordered-table">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>文章ID</th>
+							<th>文章标签</th>
+							<th>文章标题</th>
+							<th>作者</th>
+							<th>上传时间</th>
+							<th>修改时间</th>
+							<th>发布状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(tr,index) in trs" :key="index">
+							<th scope="row">{{index+1}}</th>
+							<td>{{tr.biaoqian}}</td>
+							<td>{{tr.title}}</td>
+							<td>{{tr.author}}</td>
+							<td>{{tr.time}}</td>
+							<th>{{tr.update}}</th>
+							<td><button type="button" class="btn btn-success" :class="{'btn-secondary':tr.zhuangtai}"@click="sss(index)"> <template v-if="tr.zhuangtai">已发布</template>  <template  v-else>未发布</template></button></td>
+							<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#bianjixinwen" @click="edit(index)">编辑</button> <button class="btn btn-danger" @click="del(index)">删除</button></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<!-- Modal -->
+				<div class="modal fade" id="bianjixinwen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">编辑新闻</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+							</div>
+							<div class="modal-body">
+
+								<form>
+									<div class="form-group">
+										<label>新闻标题</label>
+										<input type="text" class="form-control" v-model="title">
+									</div>
+									<div class="form-group">
+										<label>作者</label>
+										<input type="text" class="form-control" v-model="author">
+									</div>
+									<div class="form-group">
+										<label>文章内容</label>
+										<textarea class="form-control" rows="3" v-model="content"></textarea>
+									</div>
+									<div class="form-group">
+										<label>分类</label>
+										<select class="form-control" v-model="biaoqian">
+											<option>军事</option>
+											<option>国际</option>
+											<option>国内</option>
+										</select>
+									</div>
+
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" v-model="zhuangtai">
+										<label class="form-check-label" for="exampleCheck1">已发布</label>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal" @click="save">取消</button>
+								<button type="button" class="btn btn-primary" @click="save">编辑新闻</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="../js/admin.js" type="text/javascript" charset="utf-8"></script>
 	</body>
+
 </html>
